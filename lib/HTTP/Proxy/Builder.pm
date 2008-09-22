@@ -1,65 +1,98 @@
 package HTTP::Proxy::Builder;
 
-use warnings;
 use strict;
+use warnings;
+
+1;
+
+__END__
 
 =head1 NAME
 
-HTTP::Proxy::Builder - The great new HTTP::Proxy::Builder!
-
-=head1 VERSION
-
-Version 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
+HTTP::Proxy::Builder - Assemble several proxies into a single one.
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
+C<HTTP::Proxy::Builder> can be used in a single proxy script:
 
     use HTTP::Proxy::Builder;
 
-    my $foo = HTTP::Proxy::Builder->new();
-    ...
+    # The exported $proxy variable is a valid HTTP::Proxy object,
+    # initialized when HTTP::Proxy::Builder is first used
+    $proxy->push_filter( ... );
 
-=head1 EXPORT
+    # no call to $proxy->start() is needed
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+or to build larger proxies from individual ones:
 
-=head1 FUNCTIONS
+    use HTTP::Proxy::Builder;
 
-=head2 function1
+    proxy_load( 'myproxy.pl' );
+    proxy_load( 'myotherproxy.pl' );
 
-=cut
 
-sub function1 {
-}
+=head1 DESCRIPTION
 
-=head2 function2
+When creating custom proxies with C<HTTP::Proxy>, one usually hits a
+little problem: the various proxies features are independent and concern
+only a single web site each. Sometimes not all the features are needed,
+and commenting out large sections of a big proxy script is not what one
+would call flexible.
 
-=cut
+C<HTTP::Proxy::Builder> lets one build a fully working proxy, that
+is also integrable into a larger script that loads all the individual
+proxies and set them up as a single configurable multi-purpose proxy.
 
-sub function2 {
-}
+
+=head1 EXPORTED VARIABLE
+
+C<HTTP::Proxy::Builder> exports the C<$proxy> variable.
+
+By default, it is configured like this:
+
+    $proxy = HTTP::Proxy->new( @args );
+
+Where C<@args> is the content of C<@ARGV> up to the first C<--> option
+(which is removed, to allow further processing).
+
+
+=head1 EXPORTED FUNCTIONS
+
+C<HTTP::Proxy::Builder> exports the following functions:
+
+=over 4
+
+=item proxy_load( $file, ... )
+
+Runs the script contained in the given file names.
+The proxy script itself must C<use HTTP::Proxy::Builder> to work as expected.
+
+B<This function will run one or several external files given by name:
+this is potentially dangerous! Use at your own risk.>
+
+=item proxy_abort( $reason )
+
+Abort the proxy start. To be used when a proxy script must not be run.
+
+Note that calling C<die()> in your script will automatically C<abort()>
+(not in the context of an C<eval>, though).
+
+=back
+
+
+=head1 SEE ALSO
+
+C<HTTP::Proxy>, code in the F<eg/> directory.
 
 =head1 AUTHOR
 
-Philippe Bruhat (BooK), C<< <book at cpan.org> >>
+Philippe Bruhat (BooK), C<< <book@cpan.org> >>.
 
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-http-proxy-builder at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTTP-Proxy-Builder>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
-
-
 
 =head1 SUPPORT
 
@@ -91,17 +124,14 @@ L<http://search.cpan.org/dist/HTTP-Proxy-Builder>
 =back
 
 
-=head1 ACKNOWLEDGEMENTS
-
-
-=head1 COPYRIGHT & LICENSE
+=head1 COPYRIGHT
 
 Copyright 2008 Philippe Bruhat (BooK), all rights reserved.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+=head1 LICENSE
 
+This module is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
 
 =cut
 
-1; # End of HTTP::Proxy::Builder
