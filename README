@@ -1,16 +1,20 @@
 HTTP-Proxy-Builder
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+HTTP::Proxy::Builder is a module designed to help you create proxies in a
+"modular" way.
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+Until now, HTTP::Proxy programs started as a simple one-purpose program,
+and quickly grew out of that when one started to "enhance" more and more
+web sites. Sometimes not all the features are needed, and commenting out
+large sections of a big proxy script is not what one would call flexible.
 
+With HTTP::Proxy::Builder it is now possible to keep proxyies with
+different functionalities or aimed a different websites in separate
+programs, and to combine them at will using a wrapper program that
+aggregates them.
+
+The build_proxy command included in this distribution provides such
+a flexible combining proxy.
 
 INSTALLATION
 
