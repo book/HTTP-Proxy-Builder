@@ -4,8 +4,10 @@ use strict;
 use warnings;
 our $VERSION = 0.01;
 
+use File::Spec;
 use HTTP::Proxy;
 
+use Carp;
 use Exporter;
 our @ISA    = qw( Exporter );
 our @EXPORT = qw( $proxy &proxy_load &proxy_abort );
@@ -48,8 +50,17 @@ sub import {
 }
 
 sub proxy_load {
+    my @proxies = @_;
 
-    # do file -- potentially dangerous
+    for my $file (@proxies) {
+
+        $file = File::Spec->rel2abs($file);
+
+        # do file -- potentially dangerous
+        my $return = do $file;
+        carp "Couldn't parse $file: $@" if $@;
+        carp "Couldn't do $file: $!"    if !defined $return;
+    }
 }
 
 sub proxy_abort { $abort++ }
