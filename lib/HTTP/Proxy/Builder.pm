@@ -33,15 +33,22 @@ or to build larger proxies from individual ones:
 
 =head1 DESCRIPTION
 
-When creating custom proxies with C<HTTP::Proxy>, one usually hits a
-little problem: the various proxies features are independent and concern
-only a single web site each. Sometimes not all the features are needed,
-and commenting out large sections of a big proxy script is not what one
-would call flexible.
+Until now, HTTP::Proxy programs started as a simple one-purpose program,
+and quickly grew out of that when one started to "enhance" more and more
+web sites. Sometimes not all the features are needed, and commenting out
+large sections of a big proxy script is not what one would call flexible.
+
+With HTTP::Proxy::Builder it is now possible to keep proxyies with
+different functionalities or aimed a different websites in separate
+programs, and to combine them at will using a wrapper program that
+aggregates them.
 
 C<HTTP::Proxy::Builder> lets one build a fully working proxy, that
 is also integrable into a larger script that loads all the individual
 proxies and set them up as a single configurable multi-purpose proxy.
+
+The B<build_proxy> command included in this distribution provides such
+a flexible combining proxy.
 
 
 =head1 EXPORTED VARIABLE
@@ -53,7 +60,7 @@ By default, it is configured like this:
     $proxy = HTTP::Proxy->new( @args );
 
 Where C<@args> is the content of C<@ARGV> up to the first C<--> option
-(which is removed, to allow further processing).
+(which is removed, to allow further processing by the main program).
 
 
 =head1 EXPORTED FUNCTIONS
