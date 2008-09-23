@@ -2,6 +2,50 @@ package HTTP::Proxy::Builder;
 
 use strict;
 use warnings;
+our $VERSION = 0.01;
+
+use HTTP::Proxy;
+
+use Exporter;
+our @ISA     = qw( Exporter );
+our @EXPORTS = qw( $abort &proxy_load &proxy_abort );
+
+my $abort = 0;
+my $proxy;
+
+$SIG{__DIE__} = sub {
+    die @_ if $^S;
+    $abort++;
+};
+
+sub import {
+    $abort++ if grep { $_ eq 'no_start' } @_;
+    if ( !$proxy ) {
+        my @args;
+
+        # get our parameters from @ARGV
+        if ( grep { $_ eq '--' } @ARGV ) {
+            push @args, shift @ARGV while @ARGV && $ARGV[0] ne '--';
+            shift @ARGV;    # get rid of the delimiter
+        }
+        else {
+            @args = @ARGV;
+            @ARGV = ();
+        }
+
+        # create the  proxy
+        $proxy = HTTP::Proxy->new(@args);
+    }
+}
+
+sub proxy_load {
+
+    # do file -- potentially dangerous
+}
+
+sub proxy_abort { $abort++ }
+
+END { $proxy->start() if $proxy && !$abort; }
 
 1;
 
