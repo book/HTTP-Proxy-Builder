@@ -7,11 +7,12 @@ our $VERSION = 0.01;
 use HTTP::Proxy;
 
 use Exporter;
-our @ISA     = qw( Exporter );
-our @EXPORTS = qw( $abort &proxy_load &proxy_abort );
+our @ISA    = qw( Exporter );
+our @EXPORT = qw( $proxy &proxy_load &proxy_abort );
 
 my $abort = 0;
-my $proxy;
+
+our $proxy;
 
 $SIG{__DIE__} = sub {
     die @_ if $^S;
@@ -19,7 +20,15 @@ $SIG{__DIE__} = sub {
 };
 
 sub import {
-    $abort++ if grep { $_ eq 'no_start' } @_;
+    my ($class) = @_;
+
+    # there's only one thing in the import list that interests us
+    $_[$_] eq 'no_start' && splice( @_, $_, 1 ) && $abort++ for 0 .. @_ - 1;
+
+    # we let Exporter handle the rest
+    $class->export_to_level( 1, @_ );
+
+    # setup the proxy
     if ( !$proxy ) {
         my @args;
 
