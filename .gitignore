@@ -8,3 +8,4 @@ pm_to_blib*
 .lwpcookies
 HTTP-Proxy-Builder-*
 cover_db
+*.bak
