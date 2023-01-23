@@ -99,10 +99,10 @@ or to build larger proxies from individual ones:
 
 Until now, HTTP::Proxy programs started as a simple one-purpose program,
 and quickly grew out of that when one started to "enhance" more and more
-web sites. Sometimes not all the features are needed, and commenting out
+websites. Sometimes not all the features are needed, and commenting out
 large sections of a big proxy script is not what one would call flexible.
 
-With HTTP::Proxy::Builder it is now possible to keep proxyies with
+With HTTP::Proxy::Builder it is now possible to keep proxies with
 different functionalities or aimed a different websites in separate
 programs, and to combine them at will using a wrapper program that
 aggregates them.
@@ -180,17 +180,13 @@ You can also look for information at:
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=HTTP-Proxy-Builder>
 
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/HTTP-Proxy-Builder>
-
 =item * CPAN Ratings
 
 L<http://cpanratings.perl.org/d/HTTP-Proxy-Builder>
 
-=item * Search CPAN
+=item * Search MetaCPAN
 
-L<http://search.cpan.org/dist/HTTP-Proxy-Builder>
+L<https://metacpan.org/dist/HTTP-Proxy-Builder>
 
 =back
 
